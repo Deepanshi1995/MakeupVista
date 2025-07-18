@@ -1,0 +1,11 @@
+export const SCREENS = {
+    SPLASH: 'SPLASH',
+    CHOOSE: 'CHOOSE',
+    LOGIN: 'LOGIN',
+    OTP: 'OTP',
+    PROFILE: 'PROFILE',
+    PROFILE_MEDIA: 'PROFILE_MEDIA',
+    ADD_PHOTOS: 'ADD_PHOTOS',
+    DASHBOARD: 'DASHBOARD'
+  };
+  
