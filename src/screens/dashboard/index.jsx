@@ -39,7 +39,6 @@ const DashboardScreen = (props) => {
                 <Text></Text>
               </View>
             </View>
-
           </View>
       </View>
     </View>

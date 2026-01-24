@@ -211,4 +211,8 @@ export const STYLE = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  lightBackground: {
+    backgroundColor: COLOR.lightIndicator, 
+    flex: 1
+  }
 });

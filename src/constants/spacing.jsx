@@ -90,3 +90,6 @@ export const HEIGHT = {
 };
 
 export const NAVIGATION_REF = React.createRef();
+export const USER_ROLE = 'user_role';
+export const VENDOR = 'Vendor';
+export const CUSTOMER = 'Customer';

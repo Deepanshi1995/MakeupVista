@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STYLE } from '../../common';
 import { DatePicker, CustomPicker, NavigationHeader, PrimaryButton, ProfileInput } from '../../components';
-import { COLOR, SPACING } from '../../constants';
+import { COLOR, SPACING, USER_ROLE, VENDOR } from '../../constants';
 import { PencilIcon } from '../../assets/svg';
 import { navigateTo } from '../../utils';
 import { SCREENS } from '../../routes/screen_names';
@@ -10,10 +11,16 @@ import { SCREENS } from '../../routes/screen_names';
 const ProfileScreen = (props) => {
     const [fullName, setFullName] = useState('');
     const [mobileNumber, setMobileNumber] = useState('');
+    const [userRole, setUserRole] = useState('');
     const [age, setAge] = useState('');
     const [gender, setGender] = useState('');
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
+
+    useEffect(() => {
+        const user_role = AsyncStorage.getItem(USER_ROLE)
+        setUserRole(user_role)
+    }, [])
 
     const genderArray = [
         {pickerLabel: 'Female', pickerValue: 'female'},
@@ -33,11 +40,13 @@ const ProfileScreen = (props) => {
   return (
     <View style={STYLE.commonTopHorizontalPad}>
       <NavigationHeader label={'Complete Profile'} navigation={props.navigation} />
-        <View style={STYLE.indicatorContainer}>
-            <View style={STYLE.pinkIndicator} />
-            <View style={[STYLE.lightIndicator, {marginHorizontal: SPACING.v8}]} />
-            <View style={STYLE.lightIndicator} />
-        </View>
+        {userRole === VENDOR &&
+            <View style={STYLE.indicatorContainer}>
+                <View style={STYLE.pinkIndicator} />
+                <View style={[STYLE.lightIndicator, {marginHorizontal: SPACING.v8}]} />
+                <View style={STYLE.lightIndicator} />
+            </View>
+        }
         <View style={STYLE.indicatorContainer}>
             <View style={styles.imageContainer}>
                 <TouchableOpacity style={styles.pencilContainer}>
@@ -51,7 +60,11 @@ const ProfileScreen = (props) => {
         <CustomPicker label={'Gender'} selectedValue={gender} onValueChange={(itemValue, itemIndex) => setGender(itemValue)} pickerArray={genderArray} />
         <DatePicker onPress={showDatepicker} label={date.toLocaleDateString()} show={show} value={date} onChange={onChange} />
         <View style={STYLE.justifyFlex}>
-            <PrimaryButton onPress={() => navigateTo(props.navigation, SCREENS.PROFILE_MEDIA)} style={{width: '40%'}} label={'Next'} />
+            {userRole === VENDOR ?
+                <PrimaryButton onPress={() => navigateTo(props.navigation, SCREENS.PROFILE_MEDIA)} style={{width: '40%'}} label={'Next'} />
+                :
+                <PrimaryButton onPress={() => navigateTo(props.navigation, SCREENS.USER_DASHBOARD)} label={'Save Changes'} />
+            }
         </View>
     </View>
   );
